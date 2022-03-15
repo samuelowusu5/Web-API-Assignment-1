@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Driver's License Registration</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <style>
+            main {
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-position: center;
+                background-repeat: repeat;
+                background-image: url(/dvla-logo.png);
+            }
+
+            .box {
+                background-color: #1f8345;
+            }
+
+            h1, label {
+                color: #f5f5f5!important;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <form class="box" id="register-form" onsubmit="submitForm(event);">
+                <div class="columns is-mobile is-vcentered" style="margin-bottom:0;">
+                    <div class="column">
+                        <h1 class="title">Driver's License Registration</h1>
+                    </div>
+                </div>
+
+                <div class="columns is-mobile">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input name="firstName" class="input" type="text" placeholder="eg. Samuel" required>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input name="lastName" class="input" type="text" placeholder="eg. Owusu" required>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Date of Birth</label>
+                            <div class="control">
+                                <input name="birthday" class="input" type="date" required>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control">
+                                <input name="phone" class="input" type="tel" placeholder="eg. 0240000000" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input name="email" class="input" type="email" placeholder="eg. samuel-owusu@example.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Gender</label>
+                            <div class="control is-expanded">
+                                <div class="select is-fullwidth">
+                                    <select name="sex" required>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Passport Photo</label>
+                            <div class="control">
+                                <div id="profile-photo-selector" class="file has-name">
+                                    <label class="file-label">
+                                        <input class="file-input" id="passportPhotoSelector" type="file" accept="image/*" required>
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <ion-icon name="cloud-upload" size="large"></ion-icon>
+                                            </span>
+                                            <span class="file-label">
+                                                Choose a file…
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            No file uploaded
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Generated Card Number</label>
+                            <div class="control">
+                                <input name="card" class="input" type="text" value="DVLA-34458990" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div>
+                    <button class="button is-medium is-warning" type="submit">Register Applicant</button>
+                </div>
+            </form>
+            <div class="box" id="receipt" style="display: none;">
+                <div class="columns is-mobile is-vcentered">
+                    <div class="column">
+                        <h1 class="title">License Registration Details</h1>
+                    </div>
+                </div>
+                <table class="table is-striped is-fullwidth">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <figure class="image is-96x96">
+                                    <img class="is-rounded" id="passportPhoto"/>
+                                </figure>
+                            </th>
+                            <td class="has-text-centered is-size-4 has-text-weight-bold" id="card" style="vertical-align: middle;"></td>
+                        </tr>
+                        <tr>
+                            <th>First Name:</th>
+                            <td id="firstName"></td>
+                        </tr>
+                        <tr>
+                            <th>Last Name:</th>
+                            <td id="lastName"></td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth:</th>
+                            <td id="birthday"></td>
+                        </tr>
+                        <tr>
+                            <th>Phone Number:</th>
+                            <td id="phone"></td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td id="email"></td>
+                        </tr>
+                        <tr>
+                            <th>Sex:</th>
+                            <td id="sex"></td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <div>
+                    <button class="button is-medium is-warning" id="re-register-button">Re-register Applicant</button>
+                </div>
+            </div>
+        </main>
+
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+        <script>
+            function submitForm(e) {
+                e.preventDefault();
+
+                const passportPhoto = URL.createObjectURL(document.getElementById('passportPhotoSelector').files[0]);
+
+                const form = document.getElementById('register-form');
+                const formData = new FormData(form);
+
+                formData.set('passportPhoto', passportPhoto);
+
+                const params = new URLSearchParams(formData);
+                const requestQueryString = params.toString();
+
+                const xhttp = new XMLHttpRequest();
+                
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        const registeredUser = JSON.parse(this.responseText);
+
+                        showReceipt(registeredUser);
+                    }
+                };
+
+                xhttp.open("POST", "/", true);
+
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhttp.send(requestQueryString);
+            }
+
+            function showReceipt(registeredUser) {
+                document.getElementById('register-form').setAttribute('style', 'display: none;');
+
+                for (property in registeredUser) {
+                    if (property != 'passportPhoto')
+                        document.getElementById(property).innerText = registeredUser[property];
+                }
+
+                document.getElementById('passportPhoto').setAttribute('src', registeredUser['passportPhoto']);
+
+                document.getElementById('receipt').setAttribute('style', 'display: block;');
+
+            }
+
+            // Set file name
+            const fileInput = document.querySelector('#profile-photo-selector input[type=file]');
+
+            fileInput.onchange = () => {
+                if (fileInput.files.length > 0) {
+                    const fileName = document.querySelector('#profile-photo-selector .file-name');
+
+                    fileName.textContent = fileInput.files[0].name;
+                }
+            }
+
+            // Re-register
+            const reRegisterButton = document.getElementById('re-register-button');
+
+            reRegisterButton.onclick = () => {
+                document.getElementById('receipt').setAttribute('style', 'display: none;');
+                document.getElementById('register-form').setAttribute('style', 'display: block;');
+            };
+        </script>
+    </body>
+</html>
