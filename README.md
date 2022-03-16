@@ -2,9 +2,9 @@
 Assignment for Web-Api level 6 Computing Science Coventry. Demonstration of XMLHttpRequest() in a simple form.
 
 **Student Name**: Samuel Owusu  
-**Student Id:** 050919007  
-**Course**: Computing Science  
-**Level**: 6  
+**Student ID:** 050919007  
+**Programme**: BSc Computing Science  
+**Level**: 600  
 
 ## Installation Steps
 
