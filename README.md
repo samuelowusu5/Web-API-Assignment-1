@@ -1,5 +1,5 @@
 # Documentation
-Coursework 1 for Web-Api level 6 Computing Science Coventry. Demonstration of XMLHttpRequest() in a simple form.
+Assignment for Web-Api level 6 Computing Science Coventry. Demonstration of XMLHttpRequest() in a simple form.
 
 **Student Name**: Samuel Owusu  
 **Student Id:** 050919007  
